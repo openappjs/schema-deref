@@ -46,6 +46,25 @@ schemas[personSchema.id] = personSchema;
 var derefd = schemaDeRef(schemas, personSchema);
 
 console.log(JSON.stringify(derefd, null, 2));
+//{
+//  "id": "http://example.org/Person#",
+//  "properties": {
+//    "name": {
+//      "type": "string"
+//    },
+//    "resources": {
+//      "type": "array",
+//      "items": {
+//        "id": "http://example.org/Resource#",
+//        "properties": {
+//          "name": {
+//            "type": "string"
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
 ```
 
 ## license
