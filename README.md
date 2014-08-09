@@ -2,20 +2,18 @@
 
 returns json-schema with any $ref's de-referenced
 
-### WORK IN PROGRESS
-
 ## install
 
 with [npm](http://npmjs.org), do:
 
 ```
-npm i --save schema-has-ref
+npm i --save schema-deref
 ```
 
 ## example
 
 ```
-var schemaDeRef = require('schema-has-ref');
+var schemaDeRef = require('schema-deref');
 
 var resourceSchema = {
   id: "http://example.org/Resource#",
