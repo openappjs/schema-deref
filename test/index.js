@@ -24,7 +24,7 @@ var agentSchema = {
 };
 var thingSchema = {
   id: "http://example.org/Thing#",
-  allOf: [{
+  anyOf: [{
     $ref: "http://example.org/Resource#",
   }, {
     $ref: "http://example.org/Document#",
@@ -91,6 +91,12 @@ test("allOf/anyOf/oneOf schemas", function (t) {
   }), {
     oneOf: [personSchema, groupSchema],
   }, "oneOf person or group schema is correctly deref'd");
+  t.deepEqual(schemaDeRef(schemas, {
+    $ref: "http://example.org/Agent#",
+  }), {
+    id: agentSchema.id,
+    oneOf: [personSchema, groupSchema],
+  }, "oneOf person or group schema is correctly deref'd");
   t.end();
 });
 
@@ -110,5 +116,17 @@ test("array items allOf/anyOf/oneOf schemas", function (t) {
       anyOf: [resourceSchema, documentSchema],
     },
   }, "array of anyOf resource or document schema is correctly deref'd");
+  t.deepEqual(schemaDeRef(schemas, {
+    type: "array",
+    items: {
+      $ref: "http://example.org/Thing#",
+    },
+  }), {
+    type: "array",
+    items: {
+      id: thingSchema.id,
+      anyOf: [resourceSchema, documentSchema],
+    },
+  }, "array of anyOf resource or document schema is correctly recursively deref'd");
   t.end();
 });
