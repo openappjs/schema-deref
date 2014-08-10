@@ -30,6 +30,14 @@ var thingSchema = {
     $ref: "http://example.org/Document#",
   }]
 }
+var simpleCycleSchema = {
+  id: "http://example.org/Awesome#",
+  allOf: [{
+    $ref: "http://example.org/Awesome#",
+  }, {
+    type: "object",
+  }]
+}
 
 var schemas = {};
 schemas[personSchema.id] = personSchema;
@@ -38,6 +46,7 @@ schemas[resourceSchema.id] = resourceSchema;
 schemas[documentSchema.id] = documentSchema;
 schemas[agentSchema.id] = agentSchema;
 schemas[thingSchema.id] = thingSchema;
+schemas[simpleCycleSchema.id] = simpleCycleSchema;
 
 test("require module", function (t) {
   schemaDeRef = require('../');
@@ -131,3 +140,12 @@ test("array items allOf/anyOf/oneOf schemas", function (t) {
   }, "array of anyOf resource or document schema is correctly recursively deref'd");
   t.end();
 });
+
+test("cyclic schemas", function (t) {
+  t.deepEqual(
+    schemaDeRef(schemas, simpleCycleSchema),
+    simpleCycleSchema,
+    "simple cyclic schema is correctly deref'd"
+  );
+  t.end();
+})
