@@ -30,10 +30,26 @@ var thingSchema = {
     $ref: "http://example.org/Document#",
   }]
 }
-var simpleCycleSchema = {
+var awesomeSchema = {
   id: "http://example.org/Awesome#",
   allOf: [{
     $ref: "http://example.org/Awesome#",
+  }, {
+    type: "object",
+  }]
+}
+var superSchema = {
+  id: "http://example.org/Super#",
+  allOf: [{
+    $ref: "http://example.org/Duper#",
+  }, {
+    type: "object",
+  }]
+}
+var duperSchema = {
+  id: "http://example.org/Duper#",
+  allOf: [{
+    $ref: "http://example.org/Super#",
   }, {
     type: "object",
   }]
@@ -46,7 +62,9 @@ schemas[resourceSchema.id] = resourceSchema;
 schemas[documentSchema.id] = documentSchema;
 schemas[agentSchema.id] = agentSchema;
 schemas[thingSchema.id] = thingSchema;
-schemas[simpleCycleSchema.id] = simpleCycleSchema;
+schemas[awesomeSchema.id] = awesomeSchema;
+schemas[superSchema.id] = superSchema;
+schemas[duperSchema.id] = duperSchema;
 
 test("require module", function (t) {
   schemaDeRef = require('../');
@@ -143,9 +161,26 @@ test("array items allOf/anyOf/oneOf schemas", function (t) {
 
 test("cyclic schemas", function (t) {
   t.deepEqual(
-    schemaDeRef(schemas, simpleCycleSchema),
-    simpleCycleSchema,
+    schemaDeRef(schemas, awesomeSchema),
+    awesomeSchema,
     "simple cyclic schema is correctly deref'd"
+  );
+  t.deepEqual(
+    schemaDeRef(schemas, superSchema),
+    {
+      id: "http://example.org/Super#",
+      allOf: [{
+        id: "http://example.org/Duper#",
+        allOf: [{
+          $ref: "http://example.org/Super#",
+        }, {
+          type: "object",
+        }]
+      }, {
+        type: "object",
+      }]
+    },
+    "medium cyclic schema is correctly deref'd"
   );
   t.end();
 })
