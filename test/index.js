@@ -45,14 +45,15 @@ test("require module", function (t) {
   t.end();
 });
 
-test("non schemas", function (t) {
-  t.equal(schemaDeRef(schemas, true), null, "true is not schema");
-  t.equal(schemaDeRef(schemas, false), null, "false is not schema");
-  t.equal(schemaDeRef(schemas, null), null, "null is not schema");
-  t.equal(schemaDeRef(schemas, undefined), null, "undefined is not schema");
-  t.equal(schemaDeRef(schemas, [1,2,3]), null, "array is not schema");
-  t.equal(schemaDeRef(schemas, "123"), null, "string is not schema");
-  t.equal(schemaDeRef(schemas, 123), null, "number is not schema");
+test("non schemas throw", function (t) {
+  [true, false, null, undefined, [1,2,3], "123", 123]
+  .forEach(function (value) {
+    t.throws(
+      function () { schemaDeRef(schemas, value) },
+      new Error("schema-is-schema: invalid schema"),
+      value + " is not schema and throws error"
+    );
+  });
   t.end();
 });
 

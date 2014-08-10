@@ -3,8 +3,8 @@ var traverse = require('traverse');
 var isSchema = require('schema-is-schema');
 
 module.exports = function schemaDeRef(schemas, schema) {
-  // if not schema, then not relation
-  if (isSchema(schema) !== true) return null;
+  // ensure schema
+  isSchema(schema, { throw: true });
 
   return traverse.map(schema, function (scope) {
     if (scope.$ref) {

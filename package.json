@@ -31,7 +31,7 @@
     "tape": "^2.14.0"
   },
   "dependencies": {
-    "schema-is-schema": "^1.0.0",
+    "schema-is-schema": "^1.1.0",
     "traverse": "^0.6.6"
   }
 }
