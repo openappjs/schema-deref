@@ -13,7 +13,7 @@ module.exports = function schemaDeRef(schemas, schema) {
   }
 
   return traverse.map(schema, function (scope) {
-    if (scope.$ref && !reached.has(scope.$ref)) {
+    if (scope && scope.$ref && !reached.has(scope.$ref)) {
       reached.add(scope.$ref);
       this.update(schemas[scope.$ref]);
     }
