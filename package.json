@@ -1,6 +1,6 @@
 {
   "name": "schema-deref",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "returns json-schema with any $ref's de-referenced",
   "main": "index.js",
   "directories": {
